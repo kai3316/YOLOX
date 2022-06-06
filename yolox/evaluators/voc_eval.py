@@ -69,13 +69,13 @@ def voc_ap(rec, prec, use_07_metric=False):
 
 
 def voc_eval(
-    detpath,
-    annopath,
-    imagesetfile,
-    classname,
-    cachedir,
-    ovthresh=0.5,
-    use_07_metric=False,
+        detpath,
+        annopath,
+        imagesetfile,
+        classname,
+        cachedir,
+        ovthresh=0.5,
+        use_07_metric=False,
 ):
     # first load gt
     if not os.path.isdir(cachedir):
@@ -156,9 +156,9 @@ def voc_eval(
 
             # union
             uni = (
-                (bb[2] - bb[0] + 1.0) * (bb[3] - bb[1] + 1.0)
-                + (BBGT[:, 2] - BBGT[:, 0] + 1.0) * (BBGT[:, 3] - BBGT[:, 1] + 1.0)
-                - inters
+                    (bb[2] - bb[0] + 1.0) * (bb[3] - bb[1] + 1.0)
+                    + (BBGT[:, 2] - BBGT[:, 0] + 1.0) * (BBGT[:, 3] - BBGT[:, 1] + 1.0)
+                    - inters
             )
 
             overlaps = inters / uni
@@ -191,6 +191,9 @@ def voc_eval(
     print("tp: {}".format(alltp))
     print("fp: {}".format(allfp))
     print("gt: {}".format(npos))
-    print("precision: {:.4f}".format(alltp/ (alltp + allfp)))
-    print("recall: {:.4f}".format(alltp/ npos))
+    print("precision: {:.4f}".format(alltp / (alltp + allfp)))
+    print("recall: {:.4f}".format(alltp / npos))
+    precision = alltp / (alltp + allfp)
+    recall = alltp / npos
+    print("F1 score: {:.4f}".format(2 * precision * recall / (precision + recall)))
     return rec, prec, ap
