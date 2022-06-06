@@ -18,7 +18,7 @@ class Exp(BaseExp):
 
         # ---------------- model config ---------------- #
         # detect classes number of model
-        self.num_classes = 80
+        self.num_classes = 11
         # factor of model depth
         self.depth = 1.00
         # factor of model width
@@ -33,7 +33,7 @@ class Exp(BaseExp):
         self.input_size = (640, 640)  # (height, width)
         # Actual multiscale ranges: [640 - 5 * 32, 640 + 5 * 32].
         # To disable multiscale training, set the value to 0.
-        self.multiscale_range = 5
+        self.multiscale_range = 0
         # You can uncomment this line to specify a multiscale range
         # self.random_size = (14, 26)
         # dir of dataset images, if data_dir is None, this project will use `datasets` dir
@@ -47,23 +47,24 @@ class Exp(BaseExp):
 
         # --------------- transform config ----------------- #
         # prob of applying mosaic aug
-        self.mosaic_prob = 1.0
+        # self.mosaic_prob = 1.0
         # prob of applying mixup aug
-        self.mixup_prob = 1.0
+        # self.mixup_prob = 1.0
         # prob of applying hsv aug
-        self.hsv_prob = 1.0
+        # self.hsv_prob = 1.0
         # prob of applying flip aug
+        self.enable_mosaic = False
         self.flip_prob = 0.5
         # rotation angle range, for example, if set to 2, the true range is (-2, 2)
-        self.degrees = 10.0
+        self.degrees = 0.0
         # translate range, for example, if set to 0.1, the true range is (-0.1, 0.1)
-        self.translate = 0.1
-        self.mosaic_scale = (0.1, 2)
+        self.translate = 0.0
+        self.mosaic_scale = (0, 0)
         # apply mixup aug or not
-        self.enable_mixup = True
-        self.mixup_scale = (0.5, 1.5)
+        self.enable_mixup = False
+        self.mixup_scale = (0, 0)
         # shear angle range, for example, if set to 2, the true range is (-2, 2)
-        self.shear = 2.0
+        self.shear = 0.0
 
         # --------------  training config --------------------- #
         # epoch number used for warmup

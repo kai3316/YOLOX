@@ -11,7 +11,7 @@ from yolox.exp import Exp as MyExp
 class Exp(MyExp):
     def __init__(self):
         super(Exp, self).__init__()
-        self.num_classes = 20
+        self.num_classes = 11
         self.depth = 0.33
         self.width = 0.50
         self.warmup_epochs = 1
@@ -24,7 +24,7 @@ class Exp(MyExp):
 
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
 
-    def get_data_loader(self, batch_size, is_distributed, no_aug=False, cache_img=False):
+    def get_data_loader(self, batch_size, is_distributed, no_aug=True, cache_img=False):
         from yolox.data import (
             VOCDetection,
             TrainTransform,
@@ -42,8 +42,8 @@ class Exp(MyExp):
 
         with wait_for_the_master(local_rank):
             dataset = VOCDetection(
-                data_dir=os.path.join(get_yolox_datadir(), "VOCdevkit"),
-                image_sets=[('2007', 'trainval'), ('2012', 'trainval')],
+                data_dir="/home/kai/Desktop/data_noflip/VOCdevkit",
+                image_sets=[('2007', 'train')],
                 img_size=self.input_size,
                 preproc=TrainTransform(
                     max_labels=50,
@@ -100,7 +100,7 @@ class Exp(MyExp):
         from yolox.data import VOCDetection, ValTransform
 
         valdataset = VOCDetection(
-            data_dir=os.path.join(get_yolox_datadir(), "VOCdevkit"),
+            data_dir="/home/kai/Desktop/data_noflip/VOCdevkit",
             image_sets=[('2007', 'test')],
             img_size=self.test_size,
             preproc=ValTransform(legacy=legacy),
