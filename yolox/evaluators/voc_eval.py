@@ -115,6 +115,8 @@ def voc_eval(
 
     # read dets
     detfile = detpath.format(classname)
+    alltp = 0
+    allfp = 0
     with open(detfile, "r") as f:
         lines = f.readlines()
 
@@ -167,11 +169,14 @@ def voc_eval(
             if not R["difficult"][jmax]:
                 if not R["det"][jmax]:
                     tp[d] = 1.0
+                    alltp += 1
                     R["det"][jmax] = 1
                 else:
                     fp[d] = 1.0
+                    allfp += 1
         else:
             fp[d] = 1.0
+            allfp += 1
 
         # compute precision recall
     fp = np.cumsum(fp)
@@ -182,4 +187,10 @@ def voc_eval(
     prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
     ap = voc_ap(rec, prec, use_07_metric)
 
+    print("result for class {}: {:.4f} at iou={:.2f}".format(classname, ap, ovthresh))
+    print("tp: {}".format(alltp))
+    print("fp: {}".format(allfp))
+    print("gt: {}".format(npos))
+    print("precision: {:.4f}".format(alltp/ (alltp + allfp)))
+    print("recall: {:.4f}".format(alltp/ npos))
     return rec, prec, ap
